@@ -11,11 +11,11 @@
 const cardTemplare = document.querySelector("#card-template").content;
 const placesList = document.querySelector(".places__list");
 
-const cardDelete = function (element) {
+const deleteCard = function (element) {
   element.remove();
 }
 
-const cardElementAdd = function (card, cardDel) {
+const addCardElement = function (card, cardDel) {
   
   // клон темплейта
   const cardElement = cardTemplare
@@ -23,17 +23,17 @@ const cardElementAdd = function (card, cardDel) {
     .cloneNode(true);
 
   // содержимое
-  cardElement.querySelector(".card__image").src = card.link;
+  const cardImage = cardElement.querySelector(".card__image");
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
   cardElement.querySelector(".card__title").textContent = card.name;
-
-  // вывод
-  placesList.append(cardElement);
 
   // удаление
   const btnDel = cardElement.querySelector(".card__delete-button");
   btnDel.addEventListener("click", () => cardDel(cardElement));
+
+  return cardElement;
 };
 
 // вызов
-initialCards.forEach(item => cardElementAdd(item, cardDelete))
-
+initialCards.forEach(item => placesList.append(addCardElement(item, deleteCard)))
