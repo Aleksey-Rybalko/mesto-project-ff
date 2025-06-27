@@ -45,14 +45,7 @@ function closePopupBtn(popup) {
 }
 
 initialCards.forEach((item) => {
-  placesList.append(
-    createCard(
-      item,
-      deleteCard,
-      handleLike,
-      processImg,
-    )
-  );
+  placesList.append(createCard(item, deleteCard, handleLike, processImg));
 });
 
 btnEditProfile.addEventListener("click", function (evt) {
@@ -69,7 +62,7 @@ btnAddNewCard.addEventListener("click", function (evt) {
 closeByLayout(popupNewCard);
 closePopupBtn(popupNewCard);
 
-closeByLayout(popupTypeImage); 
+closeByLayout(popupTypeImage);
 closePopupBtn(popupTypeImage);
 
 /* Сохранение данных из попапа */
@@ -89,14 +82,7 @@ function handleFormSubmitPlace(evt) {
     name: form.elements["place-name"].value,
     link: form.elements["link"].value,
   };
-  placesList.prepend(
-    createCard(
-      newCard,
-      deleteCard,
-      handleLike,
-      processImg,
-    )
-  );
+  placesList.prepend(createCard(newCard, deleteCard, handleLike, processImg));
   form.reset();
   closePopup(popupNewCard);
 }

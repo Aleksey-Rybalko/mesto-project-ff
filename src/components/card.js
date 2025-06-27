@@ -8,7 +8,9 @@ const createCard = function (card, cardDel, handleLike, processImgClick) {
   cardImage.src = card.link;
   cardImage.alt = card.name;
   cardElement.querySelector(".card__title").textContent = card.name;
-  cardImage.addEventListener("click", () => processImgClick(cardImage.alt, cardImage.src));
+  cardImage.addEventListener("click", () =>
+    processImgClick(cardImage.alt, cardImage.src)
+  );
   const btnDel = cardElement.querySelector(".card__delete-button");
   btnDel.addEventListener("click", () => cardDel(cardElement));
   const isLikeBtn = cardElement.querySelector(".card__like-button");
