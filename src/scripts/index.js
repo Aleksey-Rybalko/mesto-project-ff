@@ -1,9 +1,5 @@
 import { initialCards } from "./cards.js";
-import {
-  addCardElement,
-  activateLike,
-  deleteCard,
-} from "../components/card.js";
+import { createCard, handleLike, deleteCard } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import "../pages/index.css";
 
@@ -19,24 +15,19 @@ const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const formElementProfile = document.forms["edit-profile"];
 const formElementPlace = document.forms["new-place"];
+const popups = document.querySelectorAll(".popup");
 
-popupEdit.classList.add("popup_is-animated");
-popupNewCard.classList.add("popup_is-animated");
-popupTypeImage.classList.add("popup_is-animated");
+popups.forEach((popup) => {
+  popup.classList.add("popup_is-animated");
+});
 
-function processImg(evt) {
+function processImg(name, link) {
   const popuaImage = document.querySelector(".popup__image");
   const popuaImageCaption = document.querySelector(".popup__caption");
-  popuaImage.src = evt.target.src;
-  popuaImageCaption.textContent = evt.target.alt;
-  openPopup(popupTypeImage, closeByEscape);
-}
-
-function closeByEscape(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_is-opened");
-    closePopup(openedPopup);
-  }
+  popuaImage.src = link;
+  popuaImageCaption.textContent = name;
+  popuaImage.alt = "Фотография места: ${name}";
+  openPopup(popupTypeImage);
 }
 
 function closeByLayout(popup) {
@@ -53,64 +44,62 @@ function closePopupBtn(popup) {
     .addEventListener("click", () => closePopup(popup));
 }
 
-initialCards.forEach((item) =>
+initialCards.forEach((item) => {
   placesList.append(
-    addCardElement(
+    createCard(
       item,
       deleteCard,
-      popupTypeImage,
-      activateLike,
+      handleLike,
       processImg,
-      closeByLayout,
-      closePopupBtn
     )
-  )
-);
+  );
+});
 
 btnEditProfile.addEventListener("click", function (evt) {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
-  openPopup(popupEdit, closeByEscape);
+  openPopup(popupEdit);
 });
 closeByLayout(popupEdit);
 closePopupBtn(popupEdit);
 
 btnAddNewCard.addEventListener("click", function (evt) {
-  openPopup(popupNewCard, closeByEscape);
+  openPopup(popupNewCard);
 });
 closeByLayout(popupNewCard);
 closePopupBtn(popupNewCard);
 
+closeByLayout(popupTypeImage); 
+closePopupBtn(popupTypeImage);
+
 /* Сохранение данных из попапа */
 
-function handleFormSubmit(evt) {
+function handleFormSubmitProfile(evt) {
   evt.preventDefault();
   const form = evt.target;
-
-  if (form === formElementProfile) {
-    profileName.textContent = form.elements["name"].value;
-    profileDescription.textContent = form.elements["description"].value;
-    closePopup(popupEdit);
-  } else if (form === formElementPlace) {
-    const newCard = {
-      name: form.elements["place-name"].value,
-      link: form.elements["link"].value,
-    };
-    placesList.prepend(
-      addCardElement(
-        newCard,
-        deleteCard,
-        popupTypeImage,
-        activateLike,
-        processImg,
-        closeByLayout,
-        closePopupBtn
-      )
-    );
-    form.reset();
-    closePopup(popupNewCard);
-  }
+  profileName.textContent = form.elements["name"].value;
+  profileDescription.textContent = form.elements["description"].value;
+  closePopup(popupEdit);
 }
 
-formElementProfile.addEventListener("submit", handleFormSubmit);
-formElementPlace.addEventListener("submit", handleFormSubmit);
+function handleFormSubmitPlace(evt) {
+  evt.preventDefault();
+  const form = evt.target;
+  const newCard = {
+    name: form.elements["place-name"].value,
+    link: form.elements["link"].value,
+  };
+  placesList.prepend(
+    createCard(
+      newCard,
+      deleteCard,
+      handleLike,
+      processImg,
+    )
+  );
+  form.reset();
+  closePopup(popupNewCard);
+}
+
+formElementProfile.addEventListener("submit", handleFormSubmitProfile);
+formElementPlace.addEventListener("submit", handleFormSubmitPlace);
