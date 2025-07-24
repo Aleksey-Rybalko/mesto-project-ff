@@ -19,6 +19,18 @@
   cursor: pointer;
 }
 
+.popup__button_disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none; /* Отключает клики */
+  background: #eee;
+  color: #999;
+}
+
+.popup__button-delete {
+  margin-top: 38px;
+}
+
 @media screen and (max-width: 568px) {
   .popup__button {
     font-size: 14px;

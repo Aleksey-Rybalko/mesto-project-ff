@@ -15,4 +15,20 @@ function closeByEscape(evt) {
   }
 }
 
-export { openPopup, closePopup };
+//закрытие попапа при клике за его пределами
+function closeByLayout(popup) {
+  popup.addEventListener("click", (evt) => {
+    if (evt.target === popup) {
+      closePopup(popup);
+    }
+  });
+}
+
+//назначение обработчика кнопке закрытия попапа
+function closePopupBtn(popup) {
+  popup
+    .querySelector(".popup__close")
+    .addEventListener("click", () => closePopup(popup));
+}
+
+export { openPopup, closePopup, closeByLayout, closePopupBtn };
