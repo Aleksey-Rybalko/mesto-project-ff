@@ -198,9 +198,9 @@ btnUndateProfile.addEventListener("click", function (evt) {
   clearValidation(formElementAvatar, validationConfig);
   formElementAvatar.reset();
   openPopup(popupUpdateAvatar);
+});
   closeByLayout(popupUpdateAvatar);
   closePopupBtn(popupUpdateAvatar);
-});
 
 //обработчик сабмита смены аватара
 function handleFormSubmitAvatar(evt) {

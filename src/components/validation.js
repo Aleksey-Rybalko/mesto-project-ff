@@ -79,7 +79,7 @@ function clearValidation(formElement, validationConfig) {
     inputElement.setCustomValidity("");
   });
   
-  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  toggleButtonState(inputList, buttonElement, validationConfig);
 }
 
 export {enableValidation, clearValidation};
